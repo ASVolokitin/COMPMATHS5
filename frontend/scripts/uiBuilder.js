@@ -64,6 +64,7 @@ export function createApproximationBlock(method, data) {
     const canvasContainer = document.createElement('div');
     canvasContainer.style.height = "500px";
     const graphCanvas = document.createElement('canvas');
+    graphCanvas.style.border = "2px solid #f0f0f0";
     graphCanvas.id = `graph-${method}`;
     canvasContainer.appendChild(graphCanvas);
     wrapper.appendChild(canvasContainer);

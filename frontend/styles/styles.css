@@ -9,14 +9,14 @@ body {
     display: flex;
     flex-direction: row;
     align-items: start;
-    justify-content: space-between;
+    justify-content: center;
     gap: 40px;
     transition: justify-content 0.6s ease;
   }
   
   .main-container.has-result {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .button {

@@ -95,7 +95,7 @@ function fillTableWithData(data) {
 }
 
 export function saveJsonToFile(method, data) {
-    const { x_for_graph, y_for_graph, ...filteredData } = data;
+    const { x_for_graph, y_for_graph, p_for_graph, ...filteredData } = data;
 
     const jsonString = JSON.stringify(filteredData, null, 4); 
     const blob = new Blob([jsonString], { type: 'application/json' });

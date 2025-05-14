@@ -14,15 +14,14 @@ def lagrange_solve(data: DataInput):
             total = 0
             n = len(data.x_arr)
             for i in range(n):
-                xi, yi = data.x_arr[i], data.y_arr[i]
-                term = yi
+                li = data.y_arr[i]
                 for j in range(n):
                     if i != j:
-                        denominator = xi - data.x_arr[j]
+                        denominator = data.x_arr[i] - data.x_arr[j]
                         if denominator == 0:
-                            raise ZeroDivisionError(f"Zero division at x[{i}]={xi}, x[{j}]={data.x_arr[j]}")
-                        term *= (x - data.x_arr[j]) / denominator
-                total += term
+                            raise ZeroDivisionError(f"Zero division at x[{i}]={data.x_arr[i]}, x[{j}]={data.x_arr[j]}")
+                        li *= (x - data.x_arr[j]) / denominator
+                total += li
             return total
         
         validate_polynomial(data.x_arr[0] if data.x_arr else 0, P)
@@ -30,10 +29,10 @@ def lagrange_solve(data: DataInput):
         calculation_success = True
         
     except ZeroDivisionError as e:
-        errors.append(ErrorCodes.POLINOMIAL_ZERO_DEVISION)
+        errors.append(ErrorCodes.LAGRANGE_ZERO_DEVISION + f" ({e})")
         calculation_success = False
     except ValueError as e:
-        errors.append(ErrorCodes.POLINOMIAL_VALUE_ERROR)
+        errors.append(ErrorCodes.POLYNOMIAL_VALUE_ERROR)
         calculation_success = False
     except Exception as e:
         errors.append(f"Unexpected error: {str(e)}")

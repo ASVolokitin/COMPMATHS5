@@ -7,14 +7,9 @@ import numpy as np
 from backend.utils.constants import GRAPH_PARTITIONS_AMOUNT
 
 
-
-
 def generate_graph_points(x: List[Decimal], func, errors) -> Tuple[List[Decimal], List[Decimal]]:
     try:
-        if min(x) < 0:
-            x_plot = np.linspace(min(x) - max(Decimal(2), abs(min(x)) * Decimal(0.3)), max(x) + max(Decimal(2), abs(max(x)) * Decimal(0.3)), GRAPH_PARTITIONS_AMOUNT)
-        else:
-            x_plot = np.linspace(max(Decimal('1e-10'), min(x) - max(Decimal(2), abs(min(x)) * Decimal(0.3))), max(x) + max(Decimal(2), abs(max(x)) * Decimal(0.3)), GRAPH_PARTITIONS_AMOUNT)
+        x_plot = np.linspace(min(x) - max(Decimal(4), abs(min(x)) * Decimal(0.4)), max(x) + max(Decimal(4), abs(max(x)) * Decimal(0.4)), GRAPH_PARTITIONS_AMOUNT)
         try:
             y_plot = [func(x) for x in x_plot]
         except ZeroDivisionError:

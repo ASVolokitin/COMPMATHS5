@@ -1,13 +1,21 @@
 from decimal import Decimal
 from backend.utils.calculation_utils import calculate_finite_differences
 from backend.utils.utils import generate_graph_points
-from pydantic import BaseModel, field_serializer
+from pydantic import BaseModel, validator
 from typing import List, Optional
 
 class DataInput(BaseModel):
     x_arr: List[Decimal]
     y_arr: List[Decimal]
     target_x: Decimal
+
+    @validator('y_arr')
+    def sort_and_validate_arrays(cls, y_arr, values):   
+        x_arr = values['x_arr']
+        sorted_pairs = sorted(zip(x_arr, y_arr), key=lambda pair: pair[0])
+        
+        values['x_arr'] = [x for x, y in sorted_pairs]
+        return [y for x, y in sorted_pairs]
 
 
 class ResultOutput(BaseModel):
