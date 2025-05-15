@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>LR4</title>
+    <title>LR5</title>
     <link rel="stylesheet" href="static/styles/styles.css">
     <link rel="stylesheet" href="static/styles/input_table.css">
     <link rel="stylesheet" href="static/styles/result_block.css">
@@ -13,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/decimal.js@10.4.3/decimal.min.js"></script>
-
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>   
 </head>
 <body>
     <!-- <h1>Добро пожаловать в программу Никиты Копытова</h1> -->
@@ -29,6 +29,18 @@
                     <option value="12">12</option>
                 </select>
             </div>
+
+            <div class="equations_container">
+                <div class="equation_container">
+                    \[ y=sin(x) \]
+                    <button class="button" id="fillSinBtn">fill</button>
+                </div>
+                <div class="equation_container">
+                    \[ y=x^2 \]
+                    <button class="button" id="fillSqrBtn">fill</button>
+                </div>
+            </div>
+
             <div class="data-table-container">
                  <table id="data-table">
                 <thead>

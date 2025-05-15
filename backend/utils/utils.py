@@ -1,15 +1,16 @@
 from decimal import Decimal
 import math
-from typing import Callable, List, Tuple
+from typing import List, Tuple
 
 import numpy as np
 
 from backend.utils.constants import GRAPH_PARTITIONS_AMOUNT
+from backend.utils.exceptions import UnequallySpacedXException
 
 
 def generate_graph_points(x: List[Decimal], func, errors) -> Tuple[List[Decimal], List[Decimal]]:
     try:
-        x_plot = np.linspace(min(x) - max(Decimal(4), abs(min(x)) * Decimal(0.4)), max(x) + max(Decimal(4), abs(max(x)) * Decimal(0.4)), GRAPH_PARTITIONS_AMOUNT)
+        x_plot = np.linspace(min(x) - min(Decimal(2), abs(min(x)) * Decimal(0.4)), max(x) + min(Decimal(2), abs(max(x)) * Decimal(0.4)), GRAPH_PARTITIONS_AMOUNT)
         try:
             y_plot = [func(x) for x in x_plot]
         except ZeroDivisionError:
@@ -44,3 +45,9 @@ def is_number(value):
 
 def validate_polynomial(x, polynomial):
     return polynomial(x)
+
+def validate_uniform_grid(x_arr: List[Decimal]) -> None:
+    h = x_arr[1] - x_arr[0]
+    for i in range(2, len(x_arr)):
+        if not abs((x_arr[i] - x_arr[i - 1]) - h) < 1e-10:
+            raise UnequallySpacedXException()

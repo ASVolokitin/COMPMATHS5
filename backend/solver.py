@@ -6,7 +6,6 @@ from backend.solvers.gauss_interpolation import gauss_solve
 from backend.solvers.lagrange_interpolation import lagrange_solve
 from backend.solvers.newton_interpolation import newton_solve
 from backend.utils.http_entities import DataInput
-from backend.utils.response_constructor import generate_result
 
 def solve_all(data: DataInput):
     solutions = {}

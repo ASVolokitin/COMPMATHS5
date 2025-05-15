@@ -1,12 +1,12 @@
 from decimal import Decimal
 from typing import Callable, List
-from backend.utils.http_entities import DataInput
 from enum import Enum
 
 class ErrorCodes(str, Enum):
     UNABLE_TO_CALCULATE_GRAPH_POINTS="Couldn't calculate graph points."
     UNABLE_TO_CALCULATE_FINITE_DIFFERENCES="Couldn't calculate finite differences."
     UNABLE_TO_CALCULATE_TARGET_Y="Couldn't calculate target Y."
+    UNABLE_TO_CALCULATE_STIRLING="Couldn't calculate target Y via Stirling (unequally spaced X)."
     POLYNOMIAL_ZERO_DEVISION="Couldn't calculate polynomial coefficients (Zero devision error)."
     LAGRANGE_ZERO_DEVISION="Couldn't calculate Lagrange polynomial coefficients."
     NEWTON_ZERO_DEVISION="Couldn't calculate Newton devided differences (Zero devision error)."
@@ -19,3 +19,7 @@ class InterpolationMethods(str, Enum):
     GAUSS="Gauss"
     STIRLING="Stirling"
     BESSEL="Bessel"
+
+class GaussFormula(str, Enum):
+    FIRST="fisrt"
+    SECOND="second"

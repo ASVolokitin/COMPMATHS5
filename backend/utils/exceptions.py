@@ -1,4 +1,4 @@
-class unequallySpacedXException(Exception):
+class UnequallySpacedXException(Exception):
      def __init__(self, message=None):
         if message is None:
             message = "X values must be equidistant."

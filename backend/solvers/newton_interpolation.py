@@ -3,7 +3,7 @@ import decimal
 from math import factorial
 from backend.utils.calculation_utils import calculate_divided_differences
 from backend.utils.constants import ZERO
-from backend.utils.exceptions import unequallySpacedXException
+from backend.utils.exceptions import UnequallySpacedXException
 from backend.utils.http_entities import DataInput
 from backend.utils.response_constructor import generate_result
 from backend.utils.util_entities import ErrorCodes

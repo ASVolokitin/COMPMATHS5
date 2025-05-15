@@ -62,7 +62,7 @@ export function handleFileUpload(event) {
 }
 
 
-function fillTableWithData(data) {
+export function fillTableWithData(data) {
     
     const tbody = document.getElementById('data-table').querySelector('tbody');
     tbody.innerHTML = '';
@@ -77,6 +77,7 @@ function fillTableWithData(data) {
         inputX.type = 'number';
         inputX.step = 'any';
         inputX.required = true;
+        inputX.classList.add('x-input');
         inputX.value = x;
         cellX.appendChild(inputX);
 

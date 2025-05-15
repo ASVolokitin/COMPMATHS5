@@ -1,4 +1,4 @@
-import { renderGraph } from './graphRenderer.js';  
+import { renderGraph, renderFuncGraph } from './graphRenderer.js';  
 import { saveJsonToFile } from './file.js'
 
 export function createTabs(container, tabData) {
@@ -58,7 +58,7 @@ export function createTabs(container, tabData) {
     container.appendChild(contentArea);
 }
 
-export function createApproximationBlock(method, data) {
+export function createApproximationBlock(method, data, func) {
     const wrapper = document.createElement('div');
 
     const canvasContainer = document.createElement('div');
@@ -68,8 +68,8 @@ export function createApproximationBlock(method, data) {
     graphCanvas.id = `graph-${method}`;
     canvasContainer.appendChild(graphCanvas);
     wrapper.appendChild(canvasContainer);
-    
-    renderGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, data.y_arr);
+    if (func == null) renderGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, data.y_arr);
+    else renderFuncGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, func)
 
     const paramsTable = document.createElement('table');
     paramsTable.className = 'params-table';
@@ -138,8 +138,7 @@ export function createApproximationBlock(method, data) {
 
     paramsTable.appendChild(tbody);
     wrapper.appendChild(paramsTable);
-
-    if (data.finite_differences && data.finite_differences.length > 0) {
+    if (data.finite_differences && data.finite_differences.length > 1) {
         const diffHeader = document.createElement('h3');
         diffHeader.textContent = 'Finite Differences Table';
         diffHeader.style.marginTop = '20px';
@@ -212,12 +211,16 @@ function interpretDetermination(val) {
     if (num >= 0.95) return 'High precision approximation';
     if (num >= 0.75) return 'Satisfactory approximation';
     if (num >= 0.5) return 'Weak approximation';
-    if (num == -1) return "It is impossible to approximate these points with this function";
+    if (num == -1) return "It is impossible to interpolate these points with this function";
     return 'Model requires modification, approximation accuracy is inadequate';
 }
 
+export function getPointsAmount() {
+    return parseInt(document.getElementById('points-count').value, 10);
+}
+
 export function generateTable() {
-    const count = parseInt(document.getElementById('points-count').value, 10);
+    const count = getPointsAmount();
     const table_container = document.getElementById('data-table');
     const tbody = document.getElementById('data-table').querySelector('tbody');
     tbody.innerHTML = "";
@@ -233,6 +236,7 @@ export function generateTable() {
         inputX.type = 'number';
         inputX.step = 'any';
         inputX.required = true;
+        inputX.classList.add("x-input");
         inputX.value = defaultX[i];
         cellX.appendChild(inputX);
 

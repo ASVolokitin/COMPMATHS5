@@ -1,3 +1,9 @@
+#TODO
+
+# сделать произвольное количество точек
+# сделать исходную функцию подлинее
+# добавить на клиенте сравнение значений (если функция задана)
+
 from typing import Dict, Union
 
 from backend.utils.http_entities import DataInput, ResultOutput
@@ -23,7 +29,7 @@ async def read_index():
     return FileResponse("frontend/index.html")
 
 
-@app.post("/approximate", response_model=Dict[str, ResultOutput])
+@app.post("/interpolate", response_model=Dict[str, ResultOutput])
 async def approximate(data: DataInput):
     import pydantic
     print(pydantic.__version__)

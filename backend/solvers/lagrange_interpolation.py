@@ -1,3 +1,4 @@
+from backend.utils.calculation_utils import calculate_finite_differences
 from backend.utils.http_entities import DataInput
 from backend.utils.response_constructor import generate_result
 from backend.utils.util_entities import ErrorCodes
@@ -27,6 +28,8 @@ def lagrange_solve(data: DataInput):
         validate_polynomial(data.x_arr[0] if data.x_arr else 0, P)
         polynomial = P
         calculation_success = True
+
+        finite_differences = calculate_finite_differences(data.y_arr)
         
     except ZeroDivisionError as e:
         errors.append(ErrorCodes.LAGRANGE_ZERO_DEVISION + f" ({e})")
@@ -42,5 +45,6 @@ def lagrange_solve(data: DataInput):
         data=data,
         polynomial=polynomial if calculation_success else None,
         errors=errors,
+        finite_differences=finite_differences,
         calculation_success=calculation_success
     )

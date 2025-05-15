@@ -1,3 +1,5 @@
+import { fillTableWithData } from './file.js'
+
 // async function sendData() {
 //     const tbody = document.getElementById('data-table').querySelector('tbody');
 //     const rows = Array.from(tbody.querySelectorAll('tr'));
@@ -36,7 +38,7 @@
 
 // export {sendData};
 
-async function sendData() {
+export async function sendData() {
     const tbody = document.getElementById('data-table').querySelector('tbody');
     const rows = Array.from(tbody.querySelectorAll('tr'));
     const x = [];
@@ -69,7 +71,7 @@ async function sendData() {
 
     document.getElementById("resultContainer").classList.remove("shutdown");
 
-    const response = await fetch('http://localhost:8000/approximate', {
+    const response = await fetch('http://localhost:8000/interpolate', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -83,4 +85,18 @@ async function sendData() {
     return result;
 }
 
-export { sendData };
+function sendFuncData(data) {
+    fillTableWithData(data);
+    sendData();
+    addGraph(data);
+}
+
+export function sendSinData(data) {
+    const X =  Array.from(document.querySelectorAll('.x-input')).map(input => input.value);
+    sendFuncData(X.map(x => [x, Math.sin]));
+}
+
+export function sendSqrData(data) {
+    const X =  Array.from(document.querySelectorAll('.x-input')).map(input => input.value);
+    sendFuncData(X.map(x => [x, x * x]));
+}
