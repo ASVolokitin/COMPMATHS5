@@ -9,6 +9,7 @@ def lagrange_solve(data: DataInput):
     errors = []
     polynomial = None
     calculation_success = False
+    finite_differences = [[]]
     
     try:
         def P(x):

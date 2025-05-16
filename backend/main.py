@@ -31,7 +31,5 @@ async def read_index():
 
 @app.post("/interpolate", response_model=Dict[str, ResultOutput])
 async def approximate(data: DataInput):
-    import pydantic
-    print(pydantic.__version__)
     result = solve_approximation(data)
     return result

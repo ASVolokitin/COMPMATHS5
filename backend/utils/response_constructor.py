@@ -1,7 +1,8 @@
 # from pydantic import ValidationError
 from decimal import Decimal
+import decimal
 from typing import List
-from backend.utils.calculation_utils import calculate_finite_differences, stirling_interpolation
+from backend.utils.calculation_utils import bessel_interpolation, calculate_finite_differences, stirling_interpolation
 from backend.utils.exceptions import UnequallySpacedXException
 from backend.utils.http_entities import DataInput
 from backend.utils.http_entities import ResultOutput
@@ -22,10 +23,16 @@ def generate_result(
 
     try:    
         stirling_y = stirling_interpolation(data.x_arr, data.y_arr, data.target_x)
-    except UnequallySpacedXException:
+    except Exception:
         stirling_y = None
         errors.append(ErrorCodes.UNABLE_TO_CALCULATE_STIRLING)
-    
+
+    try:    
+        bessel_y = bessel_interpolation(data.x_arr, data.y_arr, data.target_x)
+    except Exception:
+        bessel_y = None
+        errors.append(ErrorCodes.UNABLE_TO_CALCULATE_BESSEL)
+
     graph_info = generate_graph_points(data.x_arr, polynomial, errors) if polynomial else None
     if graph_info is None: 
         calculation_success = False
@@ -35,6 +42,7 @@ def generate_result(
         data=data,
         target_y=target_y,
         stirling_y=stirling_y,
+        bessel_y=bessel_y,
         calculation_success=calculation_success,
         errors=errors,
         graph_info=graph_info,

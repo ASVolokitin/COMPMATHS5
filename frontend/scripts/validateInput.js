@@ -1,33 +1,17 @@
-// export function validateInputs() {
-//     const inputs = document.querySelectorAll('input[type="number"]');
-//     let valid = true;
-
-//     inputs.forEach(input => {
-//         input.classList.remove('input-error');
-//         const existingMessage = input.parentElement.querySelector('.error-message');
-//         if (existingMessage) existingMessage.remove();
-
-//         const value = input.value.replace(',', '.');
-//         const number = parseFloat(value);
-
-//         if (isNaN(number)) {
-//             valid = false;
-//             input.classList.add('input-error');
-
-//             const msg = document.createElement('div');
-//             msg.className = 'error-message';
-//             msg.textContent = 'Enter a number';
-//             input.parentElement.appendChild(msg);
-//         }
-//     });
-
-//     return valid;
-// }
-
-
 export function validateInputs() {
-    const inputs = document.querySelectorAll('input[type="number"]');
+    const inputs = document.getElementById('data-table').querySelectorAll('input[type="number"]');
     let valid = true;
+
+    console.log(inputs);
+    if (inputs.length < 4) {
+        showModal("You should have at least 2 points.");
+        valid = false;
+    }
+
+    if (inputs.length > 32) {
+        showModal("You should have not more than 16 points.");
+        valid = false;
+    }
 
     inputs.forEach(input => {
         input.classList.remove('input-error');
@@ -48,6 +32,78 @@ export function validateInputs() {
     }
 
     return valid;
+}
+
+export function getBorderInputs() {
+    const allInputs = document.getElementsByTagName('input');
+    const result = [];
+
+    for (const input of allInputs) {
+        if (input.type === 'number') {
+            const hasIntervalClass = Array.from(input.classList).some(
+                className => className.startsWith('interval-')
+            );
+            
+            if (hasIntervalClass) {
+                result.push(input);
+            }
+        }
+    }
+
+    return result;
+}
+
+export function validateBorders(inputs) {
+
+    let valid = true;
+
+    inputs.forEach(input => {
+        input.classList.remove('input-error');
+        clearErrorMessage(input);
+
+        const value = input.value.replace(',', '.');
+        const number = parseFloat(value);
+
+        if (isNaN(number)) {
+            markAsInvalid(input, 'Enter a number');
+            valid = false;
+        }
+
+        if (Math.abs(number) > 1e40) {
+            markAsInvalid(input, "А губозакаточную машинку?");
+        }
+    });
+
+    const l = parseFloat(document.getElementById('interval-start').value.replace(',', '.'));
+    const r = parseFloat(document.getElementById('interval-end').value.replace(',', '.'));
+    const interval_amount = parseFloat(document.getElementById('interval-amount').value.replace(',', '.'));
+
+    
+    if (l > r) {
+        markAsInvalid(document.getElementById('interval-end'), "Left border can not be greater than right.");
+        valid = false;
+    }
+
+    if (interval_amount < 2) {
+        markAsInvalid(document.getElementById('interval-amount'), "You should have at least 2 intervals");
+        valid = false;
+    }
+
+    if (interval_amount > 15) {
+        markAsInvalid(document.getElementById('interval-amount'), "You can create up to 15 intervals.");
+        valid = false;
+    }
+
+    console.log(l, r);
+    
+
+    return valid;
+}
+
+export function getBorders() {
+    const l = document.getElementById("interval-start").value.replace(',', '.');
+    const r = document.getElementById("interval-end").value.replace(',', '.');
+    return [l, r];
 }
 
 function validateTargetX(targetXInput) {
@@ -79,6 +135,7 @@ function validateTargetX(targetXInput) {
         markAsInvalid(targetXInput, `X must be between ${minX} and ${maxX}`);
         return false;
     }
+    targetXInput.classList.remove('input-error');
 
     return true;
 }

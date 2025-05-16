@@ -19,17 +19,6 @@
     <!-- <h1>Добро пожаловать в программу Никиты Копытова</h1> -->
     <div class="main-container" id="mainContainer">
         <div id="inputSection">
-            <div class="point-count-selector-container">
-                <label for="points-count">Points amount:</label>
-                <select id="points-count">
-                    <option value="8" selected>8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-            </div>
-
             <div class="equations_container">
                 <div class="equation_container">
                     \[ y=sin(x) \]
@@ -40,9 +29,21 @@
                     <button class="button" id="fillSqrBtn">fill</button>
                 </div>
             </div>
+            <div class="container-interval">
+                Interval:
+                <div class="input-container">
+                    <input class="interval-start" id="interval-start" type="number" placeholder="start">
+                </div>
+                <div class="input-container">
+                    <input class="interval-end" id="interval-end" type="number" placeholder="end">
+                </div>
+                <div class="input-container">
+                    <input class="interval-amount" id="interval-amount" type="number" step="1" pattern="\d*" placeholder="amount">
+                </div>
+            </div>
 
             <div class="data-table-container">
-                 <table id="data-table">
+                <table id="data-table">
                 <thead>
                     <tr>
                         <th>x<sub>i</sub></th>
@@ -59,6 +60,10 @@
                 </div>
             </div>
             </table>
+            <div class="data-table-controls">
+                <button id="addRowBtn">+</button>
+            </div>
+            
             <div id="customModal" class="modal">
                 <div class="modal-content">
                     <span class="close">&times;</span>

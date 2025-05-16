@@ -1,4 +1,5 @@
 from decimal import Decimal
+import decimal
 from functools import reduce
 from math import factorial
 import math
@@ -35,7 +36,7 @@ def gauss_solve(data: DataInput):
     errors = []
     polynomial = None
     calculation_success = False
-    finite_differences = []
+    finite_differences = [[]]
 
     try:
         x_arr = list(map(Decimal, data.x_arr))
@@ -85,9 +86,11 @@ def gauss_solve(data: DataInput):
         polynomial = P
         calculation_success = True
 
-    except ZeroDivisionError as e:
+    except (ZeroDivisionError, decimal.InvalidOperation) as e:
         errors.append(ErrorCodes.POLYNOMIAL_ZERO_DEVISION + f" ({e})")
     except ValueError as e:
+        errors.append(str(e))
+    except UnequallySpacedXException as e:
         errors.append(str(e))
     except Exception as e:
         errors.append(f"Unexpected error: {str(e)}")

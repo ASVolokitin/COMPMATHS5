@@ -1,7 +1,8 @@
 import {sendData} from './http.js'
-import {handleFileUpload, fillTableWithData} from './file.js'
-import {validateInputs} from './validateInput.js'
-import { createApproximationBlock, generateTable, createTabs } from './uiBuilder.js';
+import {handleFileUpload, fillTableWithData, fillTableWithFunction} from './file.js'
+import {getBorderInputs, validateBorders, validateInputs} from './validateInput.js'
+import { createApproximationBlock, generateTable, createTabs, addTableRow } from './uiBuilder.js';
+import { getIntervalAmount, getIntervalEnd, getIntervalStart } from './utils.js';
 
 export async function createResult(func=null) {
     if (!validateInputs()) {
@@ -30,20 +31,27 @@ document.getElementById('sendButton').addEventListener('click', async () => {
 
 document.getElementById('fillSinBtn').addEventListener('click', async () => {
     const X =  Array.from(document.querySelectorAll('.x-input')).map(input => input.value);
-    fillTableWithData(X.map(x => [x, Math.sin(x)]));
-    const func = x => Math.sin(x);
-    createResult(func);
+    const borders = getBorderInputs();
+    console.log(borders);
+    if (validateBorders(borders) && borders[0] <= borders[1]) {
+        console.log(borders);
+        const func = x => Math.sin(x);
+        fillTableWithFunction(getIntervalStart(), getIntervalEnd(), getIntervalAmount(), func);        
+        createResult(func);
+    }
+    
 });
 
 document.getElementById('fillSqrBtn').addEventListener('click', async () => {
     const X =  Array.from(document.querySelectorAll('.x-input')).map(input => input.value);
-    fillTableWithData(X.map(x => [x, x * x]));
-    const func = x => x * x;
-    createResult(func);
-});
-
-document.getElementById('points-count').addEventListener('change', async () => {
-    generateTable();
+    const borders = getBorderInputs();
+    console.log(borders);
+    if (validateBorders(borders) && borders[0] <= borders[1]) {
+        console.log(borders);
+        const func = x => x * x;
+        fillTableWithFunction(getIntervalStart(), getIntervalEnd(), getIntervalAmount(), func);        
+        createResult(func);
+    }
 });
 
 document.getElementById('fileInput').addEventListener('change', handleFileUpload);
@@ -56,12 +64,8 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('wheel', (e) => e.preventDefault(), {passive: false});
 });
 
-document.getElementById('fillSinBtn').addEventListener('click', () => {
-    
-})
+document.getElementById("addRowBtn").addEventListener('click', () => {
+    addTableRow();
+});
 
-document.getElementById('fillSqrBtn').addEventListener('click', () => {
-   
-})
-
-window.onload = generateTable;
+window.onload = generateTable(7);

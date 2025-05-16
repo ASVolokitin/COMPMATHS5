@@ -28,6 +28,7 @@ class ResultOutput(BaseModel):
     finite_differences: Optional[List[List[Decimal]]]
     target_y: Optional[Decimal]
     stirling_y: Optional[Decimal]
+    bessel_y: Optional[Decimal]
     errors: Optional[List[str]]
 
     @classmethod
@@ -36,6 +37,7 @@ class ResultOutput(BaseModel):
         data: DataInput,
         target_y,
         stirling_y,
+        bessel_y,
         calculation_success,
         graph_info,
         errors,
@@ -49,6 +51,7 @@ class ResultOutput(BaseModel):
             target_x=data.target_x,
             target_y=target_y,
             stirling_y=stirling_y,
+            bessel_y=bessel_y,
             x_for_graph=graph_info[0] if graph_info is not None else [],
             p_for_graph=graph_info[1] if graph_info is not None else [],
             finite_differences=finite_differences,
@@ -64,6 +67,7 @@ class ResultOutput(BaseModel):
             target_x=data.target_x,
             target_y=None,
             stirling_y=None,
+            bessel_y=None,
             x_for_graph=None, # мб здесь надо поставить []
             y_for_graph=None, # мб здесь надо поставить []
             finite_differences=None, # мб здесь надо поставить []

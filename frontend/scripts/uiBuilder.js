@@ -93,7 +93,7 @@ export function createApproximationBlock(method, data, func) {
                 if (Array.isArray(formattedValue)) {
                     formattedValue = formattedValue.map(item => (typeof Decimal(item).toNumber() === 'number') ? parseFloat(Decimal(item).toNumber().toFixed(10)) : item);
                 } else if (typeof formattedValue === 'number') {
-                    formattedValue = parseFloat(formattedValue.toFixed(10));
+                    formattedValue = parseFloat(formattedValue);
                 }
             }
 
@@ -113,7 +113,7 @@ export function createApproximationBlock(method, data, func) {
                 if (key.toLowerCase() === "errors") {
                     formattedValue = formattedValue.join('\n\n');
                 }
-                else if (key.toLowerCase() === "e_dots") {
+                else if (key.toLowerCase() === "y_arr") {
                     formattedValue = "• " + formattedValue.join('\n• ');
                 }
                 else formattedValue = formattedValue.join(', ');
@@ -144,6 +144,8 @@ export function createApproximationBlock(method, data, func) {
         diffHeader.style.marginTop = '20px';
         wrapper.appendChild(diffHeader);
 
+        const diffTableContainer = document.createElement('div');
+        diffTableContainer.classList.add("table-scroll-container")
         const diffTable = document.createElement('table');
         diffTable.className = 'finite-differences-table';
         diffTable.style.marginTop = '10px';
@@ -166,6 +168,7 @@ export function createApproximationBlock(method, data, func) {
         diffTable.appendChild(diffThead);
 
         const diffTbody = document.createElement('tbody');
+        diffTbody.classList.add("scrollable-tbody");
         for (let i = 0; i < data.finite_differences.length; i++) {
             const row = document.createElement('tr');
             
@@ -189,7 +192,8 @@ export function createApproximationBlock(method, data, func) {
             diffTbody.appendChild(row);
         }
         diffTable.appendChild(diffTbody);
-        wrapper.appendChild(diffTable);
+        diffTableContainer.appendChild(diffTable);
+        wrapper.appendChild(diffTableContainer);
     }
 
     const saveBtn = document.createElement('button');
@@ -215,12 +219,7 @@ function interpretDetermination(val) {
     return 'Model requires modification, approximation accuracy is inadequate';
 }
 
-export function getPointsAmount() {
-    return parseInt(document.getElementById('points-count').value, 10);
-}
-
-export function generateTable() {
-    const count = getPointsAmount();
+export function generateTable(count) {
     const table_container = document.getElementById('data-table');
     const tbody = document.getElementById('data-table').querySelector('tbody');
     tbody.innerHTML = "";
@@ -248,8 +247,16 @@ export function generateTable() {
         inputY.value = defaultY[i];
         cellY.appendChild(inputY);
 
+        const cellAction = document.createElement('td');
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '×';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.addEventListener('click', () => deleteTableRow(row));
+        cellAction.appendChild(deleteBtn);
+
         row.appendChild(cellX);
         row.appendChild(cellY);
+        row.appendChild(cellAction);
         tbody.appendChild(row);
     }
 
@@ -271,4 +278,67 @@ export function generateTable() {
 
     // table_container.appendChild(requestedXContainer);
 
+}
+
+export function addTableRow() {
+    const tbody = document.getElementById('data-table').querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const lastXInput = rows.length > 0 ? 
+        rows[rows.length - 1].querySelector('.x-input') : null;
+    
+    const newX = lastXInput ? parseFloat(lastXInput.value) + 1 : 1;
+    const newY = Math.round(Math.random() * 10 * 100) / 100;
+    
+    const row = document.createElement('tr');
+
+    const cellX = document.createElement('td');
+    const inputX = document.createElement('input');
+    inputX.type = 'number';
+    inputX.step = 'any';
+    inputX.required = true;
+    inputX.classList.add('x-input');
+    inputX.value = newX;
+    cellX.appendChild(inputX);
+
+    const cellY = document.createElement('td');
+    const inputY = document.createElement('input');
+    inputY.type = 'number';
+    inputY.step = 'any';
+    inputY.required = true;
+    inputY.classList.add('y-input');
+    inputY.value = newY;
+    cellY.appendChild(inputY);
+
+    const cellAction = document.createElement('td');
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = '×';
+    deleteBtn.classList.add('delete-btn');
+    deleteBtn.addEventListener('click', () => deleteTableRow(row));
+    cellAction.appendChild(deleteBtn);
+
+    row.appendChild(cellX);
+    row.appendChild(cellY);
+    row.appendChild(cellAction);
+    tbody.appendChild(row);
+
+    updatePointsCount();
+}
+
+export function deleteTableRow(row) {
+    row.remove();
+    updatePointsCount();
+}
+
+export function getTableData() {
+    const tbody = document.getElementById('data-table').querySelector('tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const data = [];
+    
+    rows.forEach(row => {
+        const x = parseFloat(row.querySelector('.x-input').value);
+        const y = parseFloat(row.querySelector('.y-input').value);
+        data.push([x, y]);
+    });
+    
+    return data;
 }
