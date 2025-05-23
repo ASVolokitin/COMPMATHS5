@@ -16,7 +16,7 @@ function plotLinearLine(x1, y1, x2, y2) {
                 data: [y1, y2],
                 borderColor: 'rgba(75, 192, 192, 1)',
                 fill: false,
-                tension: 0  // чтобы линия была строго прямой
+                tension: 0 
             }]
         },
         options: {

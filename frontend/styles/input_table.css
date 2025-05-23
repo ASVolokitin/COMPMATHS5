@@ -204,3 +204,9 @@ input {
 #addRowBtn:hover {
     background-color: #3c713f;
 }
+
+.central-label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

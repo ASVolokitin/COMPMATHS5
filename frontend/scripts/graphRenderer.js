@@ -1,9 +1,9 @@
-export function renderGraph(canvas, x, y, original_X, original_Y) {
+export function renderGraph(canvas, x, y, original_X, original_Y, target_x, target_y) {
   if (!canvas || !x || !y || !original_X || !original_Y) {
     console.error('Not enough data to plot a graph');
     return;
   }
-
+  console.log(target_y);
   const ctx = canvas.getContext('2d');
 
   return new Chart(ctx, {
@@ -27,6 +27,15 @@ export function renderGraph(canvas, x, y, original_X, original_Y) {
           pointHoverRadius: 6,
           showLine: false,
           type: 'scatter'
+        },
+        {
+          label: 'Target point',
+          data: [{ x: target_x, y: target_y }],
+          backgroundColor: 'rgb(200, 99, 255)',
+          pointRadius: 8,
+          pointHoverRadius: 6,
+          showLine: false,
+          type: 'scatter'
         }
       ]
     },
@@ -44,8 +53,8 @@ export function renderGraph(canvas, x, y, original_X, original_Y) {
             display: true,
             text: 'X'
           },
-          min: Math.floor(x[0]),
-          max: Math.floor(x[x.length - 1])
+          // min: Math.floor(x[0]),
+          // max: Math.floor(x[x.length - 1])
         },
         y: {
           type: 'linear',
@@ -77,7 +86,7 @@ export function renderGraph(canvas, x, y, original_X, original_Y) {
   });
 }
 
-export function renderFuncGraph(canvas, x, y, original_X, func) {
+export function renderFuncGraph(canvas, x, y, original_X, target_x, target_y, func) {
   if (!canvas || !x || !y || !original_X || !func) {
     console.error('Not enough data to plot a graph');
     return;
@@ -114,6 +123,15 @@ export function renderFuncGraph(canvas, x, y, original_X, func) {
           data: original_X.map(xi => ({ x: xi, y: func(xi) })),
           backgroundColor: 'rgba(255, 99, 132, 1)',
           pointRadius: 5,
+          pointHoverRadius: 6,
+          showLine: false,
+          type: 'scatter'
+        },
+        {
+          label: 'Target point',
+          data: [{ x: target_x, y: target_y }],
+          backgroundColor: 'rgb(200, 99, 255)',
+          pointRadius: 8,
           pointHoverRadius: 6,
           showLine: false,
           type: 'scatter'

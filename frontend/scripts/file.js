@@ -1,30 +1,6 @@
 import { showModal } from './validateInput.js'
 import {deleteTableRow} from './uiBuilder.js'
 
-// export function handleFileUpload(event) {
-//     const file = event.target.files[0];
-//     if (!file) return;
-
-//     const reader = new FileReader();
-//     reader.onload = function(e) {
-//         const content = e.target.result;
-//         const lines = content.trim().split('\n');
-//         const data = lines.map(line => line.replace(',', '.').trim().split(/[ ;\t]+/).map(Number));
-
-//         const validData = data.filter(pair => pair.length === 2 && !isNaN(pair[0]) && !isNaN(pair[1]));
-//         if (validData.length === 0) {
-//             alert("Incorrect input format");
-//             return;
-//         }
-
-//         console.log(data);
-//         console.log(validData);
-
-//         fillTableWithData(validData);
-//     };
-
-//     reader.readAsText(file);
-// }
 
 export function handleFileUpload(event) {
     const file = event.target.files[0];

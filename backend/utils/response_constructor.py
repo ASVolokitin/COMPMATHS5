@@ -1,4 +1,3 @@
-# from pydantic import ValidationError
 from decimal import Decimal
 import decimal
 from typing import List
@@ -27,16 +26,29 @@ def generate_result(
         stirling_y = None
         errors.append(ErrorCodes.UNABLE_TO_CALCULATE_STIRLING)
 
+    # if stirling_y is not None and target_y is not None and not (Decimal(-1.05) * target_y <= stirling_y <= Decimal(1.05) * target_y):
+    #     stirling_y = None
+
     try:    
         bessel_y = bessel_interpolation(data.x_arr, data.y_arr, data.target_x)
     except Exception:
         bessel_y = None
         errors.append(ErrorCodes.UNABLE_TO_CALCULATE_BESSEL)
 
+    # if bessel_y is not None and target_y is not None and not (Decimal(-1.05) * target_y <= bessel_y <= Decimal(1.05) * target_y):
+    #     bessel_y = None
+
     graph_info = generate_graph_points(data.x_arr, polynomial, errors) if polynomial else None
     if graph_info is None: 
         calculation_success = False
         errors.append(ErrorCodes.UNABLE_TO_CALCULATE_GRAPH_POINTS)
+
+    if len(data.x_arr) % 2 == 0:
+        bessel_y = None
+        errors.append("Couldn't calculate Bessel (even amount of points).")
+    else: 
+        stirling_y = None
+        errors.append("Couldn't calculate Stirling (odd amount of points).")
     
     return ResultOutput.create(
         data=data,

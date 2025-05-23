@@ -1,9 +1,3 @@
-#TODO
-
-# сделать произвольное количество точек
-# сделать исходную функцию подлинее
-# добавить на клиенте сравнение значений (если функция задана)
-
 from typing import Dict, Union
 
 from backend.utils.http_entities import DataInput, ResultOutput

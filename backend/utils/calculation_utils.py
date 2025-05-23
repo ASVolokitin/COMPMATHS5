@@ -52,62 +52,21 @@ def get_gauss_coefficients(y_arr, diff_table, formula_type: GaussFormula):
     
     return coefficients
 
-# def stirling_interpolation(x_arr, y_arr, target_x):
-#     n = len(x_arr)
-#     if n != len(y_arr):
-#         raise ValueError("x_arr and y_arr must have the same length")
-#     if n < 2:
-#         raise ValueError("At least 2 data points are required for interpolation")
-    
-#     h = x_arr[1] - x_arr[0]
-#     try:
-#         validate_uniform_grid(x_arr)
-#     except:
-#         raise UnequallySpacedXException
-    
-#     central_idx = min(range(n), key=lambda i: abs(x_arr[i] - target_x))
-#     x0 = x_arr[central_idx]
-#     p = (target_x - x0) / h 
-
-#     diff_table = calculate_finite_differences(y_arr)
-    
-#     result = Decimal(diff_table[central_idx][0])
-    
-#     if central_idx > 0 and central_idx < n - 1:
-#         delta1 = (diff_table[central_idx][1] + diff_table[central_idx - 1][1]) / Decimal(2)
-#         result += p * delta1
-        
-#         delta2 = diff_table[central_idx - 1][2]
-#         result += (p ** 2) * delta2 / factorial(2)
-        
-#         if central_idx > 1 and central_idx < n - 2:
-#             delta3 = (diff_table[central_idx - 1][3] + diff_table[central_idx - 2][3]) / Decimal(2)
-#             result += p * (p ** 2 - 1) * delta3 / factorial(3)
-            
-#             delta4 = diff_table[central_idx - 2][4]
-#             result += (p ** 2) * (p ** 2 - 1) * delta4 / factorial(4)
-    
-#     return result
-
 def stirling_interpolation(x_arr, y_arr, target_x):
     n = len(x_arr)
     x_arr = list(map(Decimal, x_arr))
     y_arr = list(map(Decimal, y_arr))
     target_x = Decimal(target_x)
 
-    # Проверка на равномерный шаг
     h = x_arr[1] - x_arr[0]
     validate_uniform_grid(x_arr)
 
-    # Центральный индекс
     s = n // 2
     a = x_arr[s]
     u = (target_x - a) / h
 
-    # Строим таблицу центральных разностей
     diff_table = calculate_finite_differences(y_arr)
 
-    # Начинаем с центрального значения
     result = y_arr[s]
 
     temp1 = Decimal(1)
@@ -158,7 +117,6 @@ def bessel_interpolation(x_arr, y_arr, target_x):
 
     validate_uniform_grid(x_arr)
     h = x_arr[1] - x_arr[0]
-
 
     if n % 2 == 0:center_index = n // 2 - 1
     else: center_index = n // 2

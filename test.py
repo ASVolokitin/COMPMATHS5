@@ -5,10 +5,8 @@ def calculate_central_differences(y):
     n = len(y)
     delta = np.zeros((n, n))
     
-    # Заполняем нулевой столбец (значения функции)
     delta[:, 0] = y
     
-    # Вычисляем разности
     for j in range(1, n):
         for i in range(n - j):
             delta[i, j] = delta[i + 1, j - 1] - delta[i, j - 1]

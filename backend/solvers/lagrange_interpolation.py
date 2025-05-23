@@ -1,3 +1,4 @@
+import decimal
 from backend.utils.calculation_utils import calculate_finite_differences
 from backend.utils.http_entities import DataInput
 from backend.utils.response_constructor import generate_result
@@ -32,7 +33,7 @@ def lagrange_solve(data: DataInput):
 
         finite_differences = calculate_finite_differences(data.y_arr)
         
-    except ZeroDivisionError as e:
+    except (ZeroDivisionError, decimal.InvalidOperation) as e:
         errors.append(ErrorCodes.LAGRANGE_ZERO_DEVISION + f" ({e})")
         calculation_success = False
     except ValueError as e:

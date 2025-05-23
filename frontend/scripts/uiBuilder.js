@@ -68,8 +68,8 @@ export function createApproximationBlock(method, data, func) {
     graphCanvas.id = `graph-${method}`;
     canvasContainer.appendChild(graphCanvas);
     wrapper.appendChild(canvasContainer);
-    if (func == null) renderGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, data.y_arr);
-    else renderFuncGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, func)
+    if (func == null) renderGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, data.y_arr, data.target_x, data.target_y);
+    else renderFuncGraph(graphCanvas, data.x_for_graph, data.p_for_graph, data.x_arr, data.target_x, data.target_y, func)
 
     const paramsTable = document.createElement('table');
     paramsTable.className = 'params-table';
@@ -259,24 +259,6 @@ export function generateTable(count) {
         row.appendChild(cellAction);
         tbody.appendChild(row);
     }
-
-    // const requestedXContainer = document.createElement("div");
-    // requestedXContainer.classList.add("requested-x-container");
-
-    // const xLabel = document.createElement("div");
-    // xLabel.textContent = "Input X:";
-
-    // const inputTargetX = document.createElement('input');
-    // inputTargetX.type = 'number';
-    // inputTargetX.step = 'any';
-    // inputTargetX.value = defaultX[defaultX.length - 1];
-    // inputTargetX.required = true;
-    // inputTargetX.classList.add("target-x-input-field");
-
-    // requestedXContainer.appendChild(xLabel);
-    // requestedXContainer.appendChild(inputTargetX);
-
-    // table_container.appendChild(requestedXContainer);
 
 }
 

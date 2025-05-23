@@ -10,7 +10,8 @@ from backend.utils.exceptions import UnequallySpacedXException
 
 def generate_graph_points(x: List[Decimal], func, errors) -> Tuple[List[Decimal], List[Decimal]]:
     try:
-        x_plot = np.linspace(min(x) - min(Decimal(2), abs(min(x)) * Decimal(0.4)), max(x) + min(Decimal(2), abs(max(x)) * Decimal(0.4)), GRAPH_PARTITIONS_AMOUNT)
+        # x_plot = np.linspace(min(x) - min(Decimal(2), abs(min(x)) * Decimal(0.4)), max(x) + min(Decimal(2), abs(max(x)) * Decimal(0.4)), GRAPH_PARTITIONS_AMOUNT)
+        x_plot = np.linspace(min(x), max(x), GRAPH_PARTITIONS_AMOUNT)
         try:
             y_plot = [func(x) for x in x_plot]
         except ZeroDivisionError:

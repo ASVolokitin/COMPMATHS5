@@ -9,6 +9,7 @@ export function getIntervalEnd() {
 }
 
 export function getIntervalAmount() {
-    const amount = parseFloat(document.getElementById("interval-amount").value.replace(",", "."));
+    const amount = parseInt(document.getElementById("interval-amount").value.replace(",", "."));
+    document.getElementById("interval-amount").value = amount;
     return amount;
 }

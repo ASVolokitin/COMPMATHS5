@@ -68,9 +68,9 @@ class ResultOutput(BaseModel):
             target_y=None,
             stirling_y=None,
             bessel_y=None,
-            x_for_graph=None, # мб здесь надо поставить []
-            y_for_graph=None, # мб здесь надо поставить []
-            finite_differences=None, # мб здесь надо поставить []
+            x_for_graph=None,
+            y_for_graph=None, 
+            finite_differences=None,
             calculation_success=False,
             errors=errors
         )
